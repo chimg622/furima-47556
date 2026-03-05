@@ -27,28 +27,28 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Info can't be blank")
       end
-      it 'category_idが空では登録できない' do
-        @item.category_id = ''
+      it 'category_idが1では登録できない' do
+        @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
-      it 'status_idが空では登録できない' do
-        @item.status_id = ''
+      it 'status_idが1では登録できない' do
+        @item.status_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Status can't be blank")
       end
-      it 'delivery_fee_idが空では登録できない' do
-        @item.delivery_fee_id = ''
+      it 'delivery_fee_idが1では登録できない' do
+        @item.delivery_fee_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery fee can't be blank")
       end
-      it 'prefecture_idが空では登録できない' do
-        @item.prefecture_id = ''
+      it 'prefecture_idが1では登録できない' do
+        @item.prefecture_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
-      it 'delivery_scheduled_idが空では登録できない' do
-        @item.delivery_scheduled_id = ''
+      it 'delivery_scheduled_idが1では登録できない' do
+        @item.delivery_scheduled_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery scheduled can't be blank")
       end 
@@ -71,6 +71,11 @@ RSpec.describe Item, type: :model do
         @item.price = '１００００'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is not a number")
+      end
+      it 'ユーザーが紐付いていなければ投稿できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end
