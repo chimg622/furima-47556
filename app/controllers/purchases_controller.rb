@@ -2,6 +2,7 @@ class PurchasesController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @item = Item.find(params[:item_id])
     @purchase_address = PurchaseAddress.new
     if @item.purchase.present?
@@ -19,6 +20,7 @@ class PurchasesController < ApplicationController
       @purchase_address.save
       return redirect_to root_path
     else
+      gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
       render 'index', status: :unprocessable_entity
     end
   end
@@ -31,11 +33,11 @@ class PurchasesController < ApplicationController
   end
 
   def pay_item
-    @item = Item.find(params[:item_id]) # 金額取得のために必要
-    Payjp.api_key = "sk_test_b5fe59910f61bbbe5811be15" 
+    @item = Item.find(params[:item_id]) 
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
-      amount: @item.price,             # @item から価格を取得
-      card: purchase_params[:token],   # purchase_params からトークンを取得
+      amount: @item.price,
+      card: purchase_params[:token],
       currency: 'jpy'
   )
   end
