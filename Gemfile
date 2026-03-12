@@ -89,3 +89,6 @@ gem 'payjp'
 gem 'gon'
 
 gem "nokogiri", force_ruby_platform: true  
+
+gem "aws-sdk-s3", require: false
+
